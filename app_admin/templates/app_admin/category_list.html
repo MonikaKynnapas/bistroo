@@ -1,0 +1,53 @@
+{% extends 'base_admin.html' %}
+{% block main %}
+	<div class="container">
+        <div class="row">
+            <div class="col-8 mx-auto">
+                <h1>Kategooriate nimekiri</h1>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Number</th>
+                            <th>Kategooria</th>
+                            <th>Tegevus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {# default is object_list (author) must be views.py #}
+                            {% for category in categories %}
+                        	<tr>
+                                <td>{{ category.number }}</td>
+                                <td>{{ category.name }}</td>
+                                <td class="text-center">
+                                     {# {% if user.is_authenticated %}  #}
+                                        <a href="{% url 'app_admin:category_update' pk=category.id %}">Update</a>
+                                        <a href="{% url 'app_admin:category_delete' pk=category.id %}" class="text-danger">Delete</a>
+                                    {# {% endif %} #}
+
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'app_admin:category_create' %}">Lisa kategooria</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+    <a href="{% url 'app_admin:index' %}">Bistroo</a>
+    <p></p>
+    <ul>
+
+            <li>
+
+                [<a href="/app_admin/category_update/{{ category.id }}" class="text-success">Uuenda</a>]]
+                [<a href="/app_admin/category_delete/{{ category.id }}" class="text-danger">Kustuta</a>]
+            </li>
+
+    </ul>
