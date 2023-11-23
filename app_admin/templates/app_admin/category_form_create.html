@@ -2,6 +2,7 @@
 
 {% block main %}
     <h1>Lisa uus kategooria</h1>
+    <p>Vali number vastavalt sellele kuhu tahad, et uus kategooria asetseks.</p>
     <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

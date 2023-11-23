@@ -1,7 +1,9 @@
 {% extends 'base_admin.html' %}
 {% block main %}
-    <div class="col-5 mx-auto">
-    <h3>Uuenda pealkirja <span class="fw-bold">{{ name }} </h3>
+    <div class="container">
+    <div class="row">
+    <div class='col-8 mx-auto'>
+    <h1>Uuenda pealkirja <span class="fw-bold">{{ name }}</h1>
         <form method="post" class="form">
             {% csrf_token %}
             {% for field in form %}
@@ -21,7 +23,13 @@
             {% endfor %}
 
             <input type="submit" value="Uuenda" class="btn btn-success mt-2">
+        <p class="pt-2">
+                    <a href="{% url 'app_admin:index' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
+                </p>
+
+                <a href="{% url 'app_admin:food_menu_create' %}" role="button" class="btn btn-primary w-100">Lisa menüü</a>
         </form>
     </div>
-
+    </div>
+</div>
 {% endblock %}

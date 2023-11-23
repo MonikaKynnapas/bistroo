@@ -1,40 +1,43 @@
 {% extends 'base_admin.html' %}
 {% block main %}
-	<div class="container">
+    <div class="container">
         <div class="row">
-            <div class="col-8 mx-auto">
+            <div class="col-12 mx-auto">
                 <h1>Päise pealkirjad</h1>
                 <table class="table table-bordered table-hover">
                     <thead>
-                        <tr class="text-center">
-                            <th>Kuupäev</th>
-                            <th>Teema</th>
-                            <th>Soovitab</th>
-                            <th>Valmistas</th>
-                            <th>Tegevus</th>
-                        </tr>
+                    <tr class="text-center">
+                        <th>Kuupäev</th>
+                        <th>Teema</th>
+                        <th>Soovitab</th>
+                        <th>Valmistas</th>
+                        <th>Tegevus</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {# default is object_list (author) must be views.py #}
-                            {% for menu in menus %}
-                        	<tr>
-                                <td>{{ menu.date }}</td>
-                                <td>{% if menu.theme  %} {{ menu.theme }} {% endif %}</td>
-                                <td>{% if menu.recommends %} {{ menu.recommends }} {% endif %} </td>
-                                <td>{% if menu.prepared %} {{ menu.prepared }} {% endif %}</td>
-                                <td class="text-center">
-                                     {# {% if user.is_authenticated %}  #}
-                                        <a href="{% url 'app_admin:menu_update' pk=menu.id %}">Update</a>
-                                        <a href="{% url 'app_admin:menu_delete' pk=menu.id %}" class="text-danger">Delete</a>
-                                    {# {% endif %} #}
+                    {# default is object_list (author) must be views.py #}
+                    {% for menu in menus %}
+                        <tr>
+                            <td>{{ menu.date }}</td>
+                            <td>{% if menu.theme %} {{ menu.theme }} {% endif %}</td>
+                            <td>{% if menu.recommends %} {{ menu.recommends }} {% endif %} </td>
+                            <td>{% if menu.prepared %} {{ menu.prepared }} {% endif %}</td>
+                            <td class="text-center">
+                                {# {% if user.is_authenticated %}  #}
+                                <a href="{% url 'app_admin:menu_update' pk=menu.id %}">Muuda</a>
+                                <a href="{% url 'app_admin:menu_delete' pk=menu.id %}" class="text-danger">Kustuta</a>
+                                {# {% endif %} #}
 
-                                </td>
+                            </td>
 
-                            </tr>
-                        {% endfor %}
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
-                <a href="{% url 'app_admin:menu_create' %}">Lisa pealkiri</a>
+                <p class="pt-2">
+                    <a href="{% url 'app_admin:menu_create' %}" role="button" class="btn btn-primary w-100">Lisa uus
+                        päise pealkiri</a>
+                </p>
             </div>
         </div>
     </div>

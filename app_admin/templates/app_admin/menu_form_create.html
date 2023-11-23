@@ -1,11 +1,12 @@
 {% extends 'base_admin.html' %}
 
 {% block main %}
-    <h1>Täida päis</h1>
+    <h1>Päise pealkirjade sisestamine</h1>
     <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Lisa pealkiri" class="btn btn-primary">
+            <input type="submit" value="Lisa sisestatud pealkirjad" class="btn btn-primary">
+
     </form>
     <p></p>
     <p><a href="{% url 'app_admin:menu_list' %}">Pealkirjade nimekiri</a></p>

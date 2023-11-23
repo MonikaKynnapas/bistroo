@@ -3,4 +3,6 @@ from .models import *
 
 admin.site.register(Category)
 admin.site.register(Menu)
-admin.site.register(Foods)
+admin.site.register(FoodMenu)
+admin.site.register(FoodItem)
+
