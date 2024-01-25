@@ -18,11 +18,14 @@
         <!-- Page content-->
         <div class="container">
             {% include 'menu.html' %}
-            <div class="row">
-               {% block main %}
+{#            <div class="row">#}
+
+{#            </div>#}
+        </div> <!-- menu lopp -->
+        <div class="container">
+            {% block main %}
 
                {% endblock %}
-            </div>
         </div>
         <!-- Bootstrap core JS-->
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

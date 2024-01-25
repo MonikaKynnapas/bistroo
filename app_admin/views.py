@@ -1,14 +1,17 @@
 import urllib.parse
+from datetime import datetime
 from urllib.request import urlopen
 import json
 
+from django.db.models import Count, Q
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView, FormView)
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 
 from .forms import *
 from .models import *
@@ -85,7 +88,7 @@ class MenuDeleteView(DeleteView):
 class FoodMenuListView(ListView):
     model = FoodMenu
     template_name = 'app_admin/food_menu_list.html'
-
+    ordering = ['date']
 
 class FoodMenuUpdateView(SingleObjectMixin, FormView):
     model = FoodMenu
@@ -143,3 +146,70 @@ class FoodMenuCreateView(CreateView):
         )
 
         return super().form_valid(form)
+class ArchivePage(ListView):
+    model = Menu
+    template_name = 'app_admin/archive.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArchivePage, self).get_context_data(**kwargs)
+        context['unique_dates'] = Menu.objects.all()
+        return context
+
+class SearchResultsPage(ListView):
+    # https://stackoverflow.com/questions/62094267/redirect-if-query-has-no-result
+    model = FoodItem
+    template_name = 'app_admin/archive_search.html'
+    allow_empty = False
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')  # Info from form
+        object_list = None
+        if len(query) > 2:
+            # https://labpys.com/how-to-implement-join-operations-in-django-orm/
+            object_list = FoodItem.objects.select_related('menu').filter(food__icontains=query)
+
+        return object_list
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super(SearchResultsPage, self).dispatch(request, *args, **kwargs)
+        except Http404:
+            return redirect('app_admin:archive')
+
+class OldMenuPage(ListView):
+    model = Menu
+    template_name = 'app_admin/archive_menu.html'
+
+    def get_context_data(self, **kwargs):
+        all_data = None
+        query = self.request.GET.get('date')
+
+        # https://stackoverflow.com/questions/71023649/listview-with-an-extra-argument
+        if not query:
+            query = self.kwargs['date']
+
+        date_object = datetime.strptime(query, '%d.%m.%Y').date()
+        today_string = date_object.strftime('%Y-%m-%d')
+        estonian_date = datetime.strptime(today_string, '%Y-%m-%d').strftime('%d.%m.%Y')
+
+        try:
+            today_menu_id = Menu.objects.get(date=today_string)  # Result one row or Error
+            today_menu = Menu.objects.filter(Q(date=today_string)).values('date', 'theme', 'recommends', 'prepared')
+            today_all_categories = FoodMenu.objects.filter(date_id=today_menu_id)
+
+            all_data = (FoodItem.objects.filter(Q(menu_id__in=today_all_categories))
+                        .values('menu_id', 'food', 'full_price', 'half_price', 'show_in_menu',
+                                'menu__category__name', 'id', 'menu__category__number')
+                        .annotate(decount=Count('menu_id')).order_by('menu__category__number','id'))
+
+            # print(today_all_categories)
+        except Menu.DoesNotExist:
+            today_menu = None
+
+        context = {
+            'object_list': all_data,
+            'menu': today_menu,
+            'estonian_date': estonian_date,
+        }
+
+        return context

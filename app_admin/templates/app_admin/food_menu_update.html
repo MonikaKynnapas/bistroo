@@ -1,44 +1,49 @@
 {% extends 'base_admin.html' %}
 
 {% block main %}
-    <form action="" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12">
+            <form action="" method="post" enctype="multipart/form-data">
 
-        {% for hidden_field in form.hidden_fields %}
-            {{ hidden_field.errors }}
-            {{ hidden_field }}
-        {% endfor %}
+                {% for hidden_field in form.hidden_fields %}
+                    {{ hidden_field.errors }}
+                    {{ hidden_field }}
+                {% endfor %}
 
-        {% csrf_token %}
+                {% csrf_token %}
 
-        {{ form.management_form }}
-        {{ form.non_form_errors }}
+                {{ form.management_form }}
+                {{ form.non_form_errors }}
 
-        <h3>Uuenda menüüd: </h3>
-        {% for foodmenu in form.forms %}
-            <hr>
-            <h5>
-                {% if foodmenu.instance.id %}
-                    {{ foodmenu.instance.menu }}
-                {% else %}
-                    {% if form.forms|length > 1 %}
-                        Lisa veel üks toit
-                    {% else %}
-                        Lisa toit
-                    {% endif %}
-                {% endif %}
-            </h5>
-            {% for hidden_field in foodmenu.hidden_fields %}
-                {{ hidden_field.errors }}
-            {% endfor %}
-            <table>
-                {{ foodmenu.as_table }}
-            </table>
-        {% endfor %}
-        <hr>
-        <p>
-            <button type="submit" value="Update collection" class="btn btn-primary w-100 mb-3">Uuenda menüüd</button>
-            <a href="{{ foodmenu.get_absolute_url }}" role="button" class="btn btn-secondary w-100">Katkesta</a>
-        </p>
-    </form>
+                <h3>Uuenda menüüd: </h3>
+                {% for foodmenu in form.forms %}
+                    <hr>
+                    <h5>
+                        {% if foodmenu.instance.id %}
+                            {{ foodmenu.instance.menu }}
+                        {% else %}
+                            {% if form.forms|length > 1 %}
+                                Lisa veel üks toit
+                            {% else %}
+                                Lisa toit
+                            {% endif %}
+                        {% endif %}
+                    </h5>
+                    {% for hidden_field in foodmenu.hidden_fields %}
+                        {{ hidden_field.errors }}
+                    {% endfor %}
+                    <table class="table table-borderless table-sm">
+                        {{ foodmenu.as_table }}
+                    </table>
+                {% endfor %}
+                <hr>
+                <p>
+                    <button type="submit" value="Update collection" class="btn btn-primary w-100 mb-3">Uuenda menüüd
+                    </button>
+                    <a href="{{ foodmenu.get_absolute_url }}" role="button" class="btn btn-secondary w-100">Katkesta</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
 {% endblock main %}

@@ -1,4 +1,85 @@
 {% extends 'base.html' %}
 {% block main %}
-    <h1>Bistroo avalik</h1>
+    {% if menu %}
+        <div class="row mb-2">
+            <div class="container-fluid col-12">
+                <div class="fs-5 text-center darkdate">
+                    {{ menu.0.date|date:'d.m.Y' }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center fw-bold pt-2">
+                <h5 class="teemapaev">
+                    {% if menu.0.theme %}{{ menu.0.theme|upper }}{% endif %}
+                </h5>
+                <h5 class="fw-bold green">
+                    {% if menu.0.recommends %}{{ menu.0.recommends | upper }}{% endif %}
+                </h5>
+                <h5 class="fw-bold blue">
+                    {% if menu.0.prepared %}{{ menu.0.prepared | upper }}{% endif %}
+                </h5>
+            </div>
+        </div>
+    {% else %}
+        <div class="row p-0">
+            <div class="col-12">
+                <h4 class="text-center darkdate">
+                    {{ estonian_date }}
+                </h4>
+            </div>
+        </div>
+
+        {% if not object_list %}
+            <div class="row p-0">
+                <div class="col-12">
+                    <div class="alert alert-info text-center p-1">
+                        Menüüd pole veel sisestatud.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if object_list %}
+        {% regroup object_list by menu__category__name as result %}
+        <div class="row">
+            <div class="col-12">
+                {% for menu in result %}
+                    <table class="w-100 mb-3">
+                        <tr class="d-flex dark my-1">
+                            <td class="col-10 p-1 m-0 {% if forloop.counter == 1 %}text-danger{% endif %} cat_blue">
+                                {{ menu.grouper|upper }}
+                            </td>
+                            <td class="col-2"></td>
+                        </tr>
+                        {% for m in menu.list %}
+
+                            <tr class="d-flex light {% if not m.show_in_menu %}myBlur noselect{% endif %} ">
+                                <td class="col-10 p-1 m-0 id=food{{ m.id }}">
+                                    {% if m.show_in_menu %}
+                                        {{ m.food|upper }}
+                                    {% else %}
+                                        {{ m.food|upper }}
+                                    {% endif %}
+                                </td>
+                                <td class="col-2 text-end" id="price{{ m.id }}">
+                                    {% if m.full_price == 0 %}
+                                    	Prae hinna sees
+                                    {% else %}
+                                        {{ m.full_price }}
+                                    {% endif %}
+
+                                    {% if m.half_price > 0 %}
+                                        / {{ m.half_price }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endif %}
 {% endblock %}

@@ -21,12 +21,13 @@ class Category(models.Model):
 
 class Menu(models.Model):
     date = models.DateField(blank=False, null=False, unique=True)
-    theme = models.CharField(max_length=30, null=True, blank=True)
-    recommends = models.CharField(max_length=30, null=True, blank=True)
-    prepared = models.CharField(max_length=30, null=True, blank=True)
+    theme = models.CharField(max_length=250, null=True, blank=True)
+    recommends = models.CharField(max_length=250, null=True, blank=True)
+    prepared = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.date}'
+        return f'{self.date.strftime("%d.%m.%Y")}'
+        # return self.date
 
     class Meta:
         ordering = ['-date']
