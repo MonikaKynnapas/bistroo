@@ -1,7 +1,7 @@
 {% extends 'base_admin.html' %}
 
 {% block main %}
-    <div class="col-5 mx-auto">
+    <div class="col-12 mx-auto">
     <h3>Uuenda kategooriat <span class="fw-bold">{{ name }} </h3>
         <form method="post" class="form">
             {% csrf_token %}
@@ -22,7 +22,7 @@
                 </div>
             {% endfor %}
 
-            <input type="submit" value="Uuenda" class="btn btn-success mt-2">
+            <input type="submit" value="Uuenda" class="btn btn-success w-100">
         </form>
     </div>
 

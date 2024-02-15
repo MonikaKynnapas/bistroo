@@ -11,13 +11,22 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui-1.13.2/jquery-ui.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'js/jquery-ui-1.13.2/jquery-ui.css' %}">
+
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
 
         <!-- Page content-->
         <div class="container">
-            {% include 'menu.html' %}
+            {% if user.is_authenticated %}
+            	 {% include 'menu.html' %}
+            {% endif %}
+
 {#            <div class="row">#}
 
 {#            </div>#}
@@ -27,9 +36,8 @@
 
                {% endblock %}
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-        <!-- Core theme JS-->
-        <script src="{% static 'js/scripts.js' %}"></script>
+
+
+
     </body>
 </html>

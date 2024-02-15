@@ -3,44 +3,51 @@
 {% block main %}
     <div class="container">
         <div class="row">
-            <div class="col-8 mx-auto">
-                <h1 class="h3">Menüüde nimekiri</h1>
-                <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr class="text-center">
-                        <th>Menüü</th>
-                        <th>Tegevus</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div class="col-12 mx-auto">
+                <h1 class="h1">Menüüde nimekiri</h1>
+                {% if object_list %}
+                    <div class="row">
+                        {% include "app_admin/pagination.html" %}
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="text-center">
+                            <th>Menüü</th>
+                            <th>Tegevus</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    {% if object_list %}
+                        {% if object_list %}
 
-                        {% for menu in object_list %}
-                            <tr>
-                            <td class="text-reset"
-                                href="{{ menu.get_absolute_url }}">{{ menu.date }} {{ menu.category }} </td>
-                            <td class="text-center">
-                                     {# {% if user.is_authenticated %}  #}
+                            {% for menu in object_list %}
+                                <tr>
+                                    <td class="text-reset"
+                                        href="{{ menu.get_absolute_url }}">{{ menu.date }} {{ menu.category }} </td>
+                                    <td class="text-center">
+                                        {# {% if user.is_authenticated %}  #}
                                         <a href="{% url 'app_admin:food_menu_update' pk=menu.id %}">Muuda</a>
-                                        <a href="{% url 'app_admin:food_menu_detail' pk=menu.id %}" class="text-warning">Vaata</a>
+                                        <a href="{% url 'app_admin:food_menu_detail' pk=menu.id %}"
+                                           class="text-warning">Vaata</a>
                                         <a href="{% url 'app_admin:food_menu_delete' pk=menu.id %}" class="text-danger">Kustusta</a>
-                                    {# {% endif %} #}
-                                </td>
-                            </tr>
+                                        {# {% endif %} #}
+                                    </td>
+                                </tr>
 
-                        {% endfor %}
+                            {% endfor %}
 
 
-                    {% else %}
+                        {% else %}
 
-                        <p>Siin ei ole menüüsid mida näidata.</p>
+                            <p>Siin ei ole menüüsid mida näidata.</p>
 
-                    {% endif %}
-                </table>
-                <p class="pt-2">
-                    <a href="{% url 'app_admin:food_menu_create' %}" role="button" class="btn btn-primary w-100">Lisa toit</a>
-                </p>
+                        {% endif %}
+                    </table>
+                    <p class="pt-2">
+                        <a href="{% url 'app_admin:food_menu_create' %}" role="button" class="btn btn-primary w-100">Lisa
+                            toit</a>
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>

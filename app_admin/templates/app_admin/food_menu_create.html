@@ -1,26 +1,45 @@
 {% extends 'base_admin.html' %}
 
 {% block main %}
- <h1 class="h3">Toitude lisamine</h1>
-      <form action="" method="post">
+    <h1 class="h3">Toitude lisamine</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message.message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="" method="post">
         {% for hidden_field in form.hidden_fields %}
-          {{ hidden_field.errors }}
-          {{ hidden_field }}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
         {% endfor %}
 
         {% csrf_token %}
 
         {{ form.non_form_errors }}
 
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% for field in form %}
-          {{ field.errors }}
-          {{ field.label_tag }} {{ field }}
+            <div class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
         {% endfor %}
 
         <p class="pt-2">
             <button type="submit" class="btn btn-primary w-100 mb-2">Lisa toit menüüsse</button>
             <a href="{% url 'app_admin:index' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
         </p>
-      </form>
+    </form>
 
 {% endblock main %}

@@ -1,3 +1,4 @@
+from django.forms import TextInput
 from django.forms.models import inlineformset_factory
 import django.forms
 from django import forms
@@ -18,17 +19,27 @@ class MenuCreateForm(forms.ModelForm):
 
     class Meta:
         model = Menu
+        fields = ('date', 'theme', 'recommends', 'prepared')
+
         widgets = {
-            'date': django.forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
+            # 'date': django.forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'date': TextInput(attrs={'type': 'text', 'id': 'date', 'class': 'form-control', 'placeholder': 'Vali kuupäev', 'readonly': 'readonly'}),
             'theme': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control', 'placeholder': 'Kui lisad teema, pead lisama ka soovitaja'}),
             'recommends': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control', 'placeholder': 'Kui lisad soovitaja, pead lisama ka teema'}),
             'prepared': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control'}),
         }
-        fields = ('date', 'theme', 'recommends', 'prepared')
 
+    def clean(self):
+        super(MenuCreateForm, self).clean()
+
+        theme = self.cleaned_data['theme']
+        recommends = self.cleaned_data['recommends']
+        if(theme is None and recommends is not None) or (theme is not None and recommends is None):
+            self.add_error('theme', ValidationError('Teemapäev ja peakokk peavad mõlemad olema täidetud, mitte üks kahest.'))
+
+        return self.cleaned_data
 
 class FoodMenuUpdateForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(FoodMenuUpdateForm, self).__init__(*args, **kwargs)
 
@@ -67,9 +78,31 @@ class FoodMenuCreateForm(forms.ModelForm):
             'category': django.forms.Select(attrs={'class': 'form-control form-select'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get('date')
+        category = cleaned_data.get('category')
+
+        if FoodMenu.objects.filter(date=date, category=category).exists():
+            raise ValidationError(
+                f"Uut '{category}' kategooriat ei saa sellele kuupäevale sisestada, kuna see on juba olemas.")
+
+        return cleaned_data
+
 
 FoodMenuFormset = inlineformset_factory(
     FoodMenu,
     FoodItem,
     form=FoodMenuUpdateForm,
+    extra=5,
     fields=('food', 'full_price', 'half_price', 'show_in_menu',))
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['number', 'name']
+        widgets = {
+            'number': forms.TextInput(attrs={'type': 'text', 'class': 'form-control mb-2'}),
+            'name': forms.TextInput(attrs={'type': 'text', 'class': 'form-control'}),
+        }

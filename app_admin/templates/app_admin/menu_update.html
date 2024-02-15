@@ -1,35 +1,33 @@
 {% extends 'base_admin.html' %}
 {% block main %}
     <div class="container">
-    <div class="row">
-    <div class='col-8 mx-auto'>
-    <h1>Uuenda pealkirja <span class="fw-bold">{{ name }}</h1>
-        <form method="post" class="form">
-            {% csrf_token %}
-            {% for field in form %}
-            	<div class="form-field">
-                    <label for="{{ field.id_for_label }}" class="fw-bold">{{ field.label }}</label>
-                    {# Show errors IF #}
-                    {% for error in field.errors %}
-                    	{% if field.errors %}
-                    		<div class="alert alert-danger mt-1">
-                                {{ error }}
-                            </div>
-                    	{% endif %}
+        <div class="row">
+            <div class='col-12 mx-auto'>
+                <h1>Uuenda pealkirja <span class="fw-bold">{{ name }}</span></h1>
+                <form method="post" class="form">
+                    {% for hidden_field in form.hidden_fields %}
+                        <div class="alert alert-danger mt-1">{{ hidden_field.errors }}</div>
+                        {{ hidden_field }}
                     {% endfor %}
-
-                    {{ field }}
-                </div>
-            {% endfor %}
-
-            <input type="submit" value="Uuenda" class="btn btn-success mt-2">
-        <p class="pt-2">
-                    <a href="{% url 'app_admin:index' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
-                </p>
-
-                <a href="{% url 'app_admin:food_menu_create' %}" role="button" class="btn btn-primary w-100">Lisa menüü</a>
-        </form>
+                    {% csrf_token %}
+                    {{ form.non_form_errors }}
+                    {% for field in form %}
+                        <div class="form-field">
+                            <label for="{{ field.auto.id}}" class="fw-bold">{{ field.label_tag }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="alert alert-danger mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <input type="submit" value="Uuenda" class="btn btn-success w-100">
+                    <p class="pt-2">
+                        <a href="{% url 'app_admin:index' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
+                    </p>
+                    <a href="{% url 'app_admin:food_menu_create' %}" role="button" class="btn btn-primary w-100">Lisa
+                        menüü</a>
+                </form>
+            </div>
+        </div>
     </div>
-    </div>
-</div>
 {% endblock %}

@@ -1,7 +1,15 @@
 {% extends 'base_admin.html' %}
 {% block main %}
-    <h1>Bistroo admini leht</h1>
+    <h1>Kehtna kooli bistroo admini leht</h1>
+    <p>Siin lehel saad määrata bistroo menüüle pealkirjad: kuupäeva, päeva teema, soovitaja ja toidu valmistaja.
+        Kui oled kirjutanud päeva teema, siis pead lisama ka soovitaja. Kui oled kirjutanud soovitaja, pead määrama ka päeva teema.
+        Toiduvalmistaja võid lisada, aga ei pea.</p>
+    <p>Kategooriaid on algselt seitse ja need on kindlas järjekorras. Kui vaja, saad kategooriaid lisada juurde.
+        Kategooria number asetab lisatud kategooria vastavale kohale.
+        Näiteks kui tahad lisada kategooria kooli jook kohe peale kooli lõuna ja suppide vahele,
+        siis peaksid selle numbriks panema numbri mis on suurem ku kümme ja väiksem kui kakskümmend.</p>
     <a href="{% url 'app_admin:category_create' %}">Kategooriate lisamine</a>
     <p><a href="{% url 'app_admin:category_list' %}">Kategooriate nimekiri</a></p>
     <p><a href="{% url 'app_admin:food_menu_list' %}">Menüüde nimekiri</a></p>
+
 {% endblock %}

@@ -17,7 +17,7 @@
                 <tbody>
                 {% for food in object_list %}
                     <tr>
-                        <td class="text-center"><a href="">{{ food.menu.date }}</a></td>
+                        <td class="text-center"><a href="{% url 'app_admin:archive-search-menu-date' date=food.menu.date %}">{{ food.menu.date }}</a></td>
                         <td>{{ food.menu.category }}</td>
                         <td>{{ food.food }}</td>
                         <td class="text-end">{{ food.full_price }}</td>

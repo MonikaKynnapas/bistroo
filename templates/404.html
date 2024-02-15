@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <h3>404 Page not found</h3>
+            <p class="text-danger">This page not exists! </p>
+            <a href="{% url 'app_admin:index' %}">Avalehele</a>
+            <a href="/">Homepage</a>
+        </div>
+    </div>
+{% endblock %}

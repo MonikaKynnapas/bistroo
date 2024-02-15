@@ -3,12 +3,21 @@
 {% block main %}
     <h1>Päise pealkirjade sisestamine</h1>
     <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Lisa sisestatud pealkirjad" class="btn btn-primary">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Lisa sisestatud pealkirjad" class="btn btn-primary w-100">
 
     </form>
     <p></p>
     <p><a href="{% url 'app_admin:menu_list' %}">Pealkirjade nimekiri</a></p>
-    <p><a href="{% url 'app_admin:index' %}">Avalehele</a></p>
+
+    <script>
+        $(function () {
+            $("#date").datepicker({
+                dateFormat: 'dd.mm.yy'
+                // dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+
 {% endblock %}

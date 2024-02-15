@@ -1,34 +1,36 @@
 {% extends 'base_admin.html' %}
 {% block main %}
-	<div class="container">
+    <div class="container">
         <div class="row">
-            <div class="col-8 mx-auto">
+            <div class="col-12 mx-auto">
                 <h1>Kategooriate nimekiri</h1>
                 <table class="table table-bordered table-hover">
                     <thead>
-                        <tr class="text-center">
-                            <th>Number</th>
-                            <th>Kategooria</th>
-                            <th>Tegevus</th>
-                        </tr>
+                    <tr class="text-center">
+                        <th>Number</th>
+                        <th>Kategooria</th>
+                        <th>Tegevus</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {# default is object_list (author) must be views.py #}
-                            {% for category in categories %}
-                        	<tr>
-                                <td>{{ category.number }}</td>
-                                <td>{{ category.name }}</td>
-                                <td class="text-center">
-                                     {# {% if user.is_authenticated %}  #}
-                                        <a href="{% url 'app_admin:category_update' pk=category.id %}">Uuenda</a>
-                                        <a href="{% url 'app_admin:category_delete' pk=category.id %}" class="text-danger">Kustuta</a>
-                                    {# {% endif %} #}
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {# default is object_list (author) must be views.py #}
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.number }}</td>
+                            <td>{{ category.name }}</td>
+                            <td class="text-center">
+                                {# {% if user.is_authenticated %}  #}
+                                <a href="{% url 'app_admin:category_update' pk=category.id %}">Uuenda</a>
+                                <a href="{% url 'app_admin:category_delete' pk=category.id %}" class="text-danger">Kustuta</a>
+                                {# {% endif %} #}
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
-                <a href="{% url 'app_admin:category_create' %}">Lisa kategooria</a>
+                <a href="{% url 'app_admin:category_create' %}" role="button" class="btn btn-primary w-100">Lisa
+                    kategooria</a>
+
             </div>
         </div>
     </div>
@@ -38,14 +40,14 @@
 
 
 
-    <a href="{% url 'app_admin:index' %}">Bistroo</a>
-    <p></p>
-    <ul>
+<a href="{% url 'app_admin:index' %}">Bistroo</a>
+<p></p>
+<ul>
 
-            <li>
+    <li>
 
-                [<a href="/app_admin/category_update/{{ category.id }}" class="text-success">Uuenda</a>]]
-                [<a href="/app_admin/category_delete/{{ category.id }}" class="text-danger">Kustuta</a>]
-            </li>
+        [<a href="/app_admin/category_update/{{ category.id }}" class="text-success">Uuenda</a>]]
+        [<a href="/app_admin/category_delete/{{ category.id }}" class="text-danger">Kustuta</a>]
+    </li>
 
-    </ul>
+</ul>

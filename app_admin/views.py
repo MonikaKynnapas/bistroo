@@ -3,6 +3,7 @@ from datetime import datetime
 from urllib.request import urlopen
 import json
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count, Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -19,28 +20,35 @@ from .models import *
 
 # Create your views here.
 
+class ManagerRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.groups.filter(name='manager').exists()
 
-class HomeView(TemplateView):
+
+class HomeView(ManagerRequiredMixin, TemplateView):
     template_name = 'app_admin/index.html'
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(ManagerRequiredMixin, CreateView):
     template_name = 'app_admin/category_form_create.html'
     model = Category
-    fields = '__all__'
+    form_class = CategoryForm
+    #  fields = '__all__'
     success_url = reverse_lazy('app_admin:category_list')
 
 
-class CategoryListView(ListView):
+class CategoryListView(ManagerRequiredMixin, ListView):
     model = Category
+    form_class = CategoryForm
     queryset = Category.objects.order_by('number')
     context_object_name = 'categories'
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(ManagerRequiredMixin, UpdateView):
     template_name = 'app_admin/category_update.html'
     model = Category
-    fields = ['number', 'name']
+    form_class = CategoryForm
+    #  fields = ['number', 'name']
     success_url = reverse_lazy('app_admin:category_list')
 
     def form_valid(self, form):
@@ -48,49 +56,65 @@ class CategoryUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(ManagerRequiredMixin, DeleteView):
     template_name = 'app_admin/category_delete.html'
+    form_class = CategoryForm
     model = Category
     success_url = reverse_lazy('app_admin:category_list')
 
 
-class MenuCreateView(CreateView):
+class MenuCreateView(ManagerRequiredMixin, CreateView):
     template_name = 'app_admin/menu_form_create.html'
     model = Menu
     # fields = '__all__'
     form_class = MenuCreateForm
     success_url = reverse_lazy('app_admin:menu_list')
 
+    def post(self, request, *args, **kwargs):
+        my_data = request.POST
+        my_date = my_data['date']
 
-class MenuListView(ListView):
+        try:
+            new_date =datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
+            my_data._mutable = True
+            my_data['date'] = new_date
+            my_data._mutable = False
+        except ValueError:
+            return super().post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
+
+class MenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/menu_list.html'
     model = Menu
     context_object_name = 'menus'
+    paginate_by = 2
 
 
-class MenuUpdateView(UpdateView):
+class MenuUpdateView(ManagerRequiredMixin, UpdateView):
     template_name = 'app_admin/menu_update.html'
     model = Menu
-    fields = ['date', 'theme', 'recommends', 'prepared']
+    # fields = ['date', 'theme', 'recommends', 'prepared']
     success_url = reverse_lazy('app_admin:menu_list')
-
+    form_class = MenuCreateForm
     def form_valid(self, form):
         # Additional checks
         return super().form_valid(form)
 
 
-class MenuDeleteView(DeleteView):
+class MenuDeleteView(ManagerRequiredMixin, DeleteView):
     template_name = 'app_admin/menu_delete.html'
     model = Menu
     success_url = reverse_lazy('app_admin:menu_list')
 
 
-class FoodMenuListView(ListView):
+class FoodMenuListView(ManagerRequiredMixin, ListView):
     model = FoodMenu
     template_name = 'app_admin/food_menu_list.html'
-    ordering = ['date']
+    # ordering = ['date']
+    paginate_by = 10
 
-class FoodMenuUpdateView(SingleObjectMixin, FormView):
+
+class FoodMenuUpdateView(ManagerRequiredMixin, SingleObjectMixin, FormView):
     model = FoodMenu
     form_class = FoodMenuUpdateForm
     template_name = 'app_admin/food_menu_update.html'
@@ -121,18 +145,18 @@ class FoodMenuUpdateView(SingleObjectMixin, FormView):
         return reverse('app_admin:food_menu_detail', kwargs={'pk': self.object.pk})
 
 
-class FoodMenuDetailView(DetailView):
+class FoodMenuDetailView(ManagerRequiredMixin, DetailView):
     model = FoodMenu
     template_name = 'app_admin/food_menu_detail.html'
 
 
-class FoodMenuDeleteView(DeleteView):
+class FoodMenuDeleteView(ManagerRequiredMixin, DeleteView):
     model = FoodMenu
     template_name = 'app_admin/food_menu_delete.html'
     success_url = reverse_lazy('app_admin:food_menu_list')
 
 
-class FoodMenuCreateView(CreateView):
+class FoodMenuCreateView(ManagerRequiredMixin, CreateView):
     model = FoodMenu
     form_class = FoodMenuCreateForm
     template_name = 'app_admin/food_menu_create.html'
@@ -146,7 +170,9 @@ class FoodMenuCreateView(CreateView):
         )
 
         return super().form_valid(form)
-class ArchivePage(ListView):
+
+
+class ArchivePage(ManagerRequiredMixin, ListView):
     model = Menu
     template_name = 'app_admin/archive.html'
 
@@ -155,7 +181,8 @@ class ArchivePage(ListView):
         context['unique_dates'] = Menu.objects.all()
         return context
 
-class SearchResultsPage(ListView):
+
+class SearchResultsPage(ManagerRequiredMixin, ListView):
     # https://stackoverflow.com/questions/62094267/redirect-if-query-has-no-result
     model = FoodItem
     template_name = 'app_admin/archive_search.html'
@@ -176,7 +203,8 @@ class SearchResultsPage(ListView):
         except Http404:
             return redirect('app_admin:archive')
 
-class OldMenuPage(ListView):
+
+class OldMenuPage(ManagerRequiredMixin, ListView):
     model = Menu
     template_name = 'app_admin/archive_menu.html'
 
@@ -186,7 +214,7 @@ class OldMenuPage(ListView):
 
         # https://stackoverflow.com/questions/71023649/listview-with-an-extra-argument
         if not query:
-            query = self.kwargs['date']
+            query = self.kwargs['date']  # PP.KK.AAAA
 
         date_object = datetime.strptime(query, '%d.%m.%Y').date()
         today_string = date_object.strftime('%Y-%m-%d')
@@ -200,7 +228,7 @@ class OldMenuPage(ListView):
             all_data = (FoodItem.objects.filter(Q(menu_id__in=today_all_categories))
                         .values('menu_id', 'food', 'full_price', 'half_price', 'show_in_menu',
                                 'menu__category__name', 'id', 'menu__category__number')
-                        .annotate(decount=Count('menu_id')).order_by('menu__category__number','id'))
+                        .annotate(decount=Count('menu_id')).order_by('menu__category__number', 'id'))
 
             # print(today_all_categories)
         except Menu.DoesNotExist:

@@ -42,9 +42,8 @@ class FoodMenu(models.Model):
     date = models.ForeignKey(Menu, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-
     class Meta:
-        ordering = ['-date', 'category_id']
+        ordering = ['date', 'category_id']
 
     def get_absolute_url(self):
         return reverse('app_admin:food_menu_update', kwargs={'pk': self.pk})

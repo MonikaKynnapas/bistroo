@@ -23,4 +23,5 @@ urlpatterns = [
     path('archive/', views.ArchivePage.as_view(), name='archive'),
     path('archive_search/', views.SearchResultsPage.as_view(), name='archive-search'),
     path('archive_search/menu', views.OldMenuPage.as_view(), name='archive-search-menu'),
+    path('archive_search/menu/date/<str:date>', views.OldMenuPage.as_view(), name='archive-search-menu-date'),
     ]

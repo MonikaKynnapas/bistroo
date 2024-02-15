@@ -1,0 +1,53 @@
+{% extends "base_admin.html" %}
+
+{% block main %}
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+
+
+      background-color: #f0f0f0; /* Tausta värv */
+    }
+
+
+
+    table {
+      width: auto;
+    }
+  </style>
+
+  {% if form.errors %}
+    <p style="color: red">Kasutaja nimi ja parool ei sobi omavahel. Palun proovi uuesti.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Kasutajal ei ole luba sellele lehele.</p>
+    {% else %}
+      <h5 style="white-space: nowrap; margin-top: 40px;">Logi sisse, et näha seda lehekülge.</h5>
+    {% endif %}
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table style="color: #0a52be">
+      <tr>
+        <td style="border: 2px solid #ddd;">{{ form.username.label_tag }}</td>
+        <td style="border: 2px solid #ddd;">{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td style="border: 2px solid #ddd;">{{ form.password.label_tag }}</td>
+        <td style="border: 2px solid #ddd;">{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="Logi sisse" style="background-color: blue; color: white; padding: 5px; border: none; border-radius: 5px; cursor: pointer; width: 88%;">
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Unustasid parooli?</a></p>
+
+{% endblock %}

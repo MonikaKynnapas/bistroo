@@ -1,6 +1,6 @@
 {% extends 'base_admin.html' %}
 {% block main %}
-    <div class="row col-10 mx-auto mt-2">
+    <div class="row col-12 mx-auto mt-2">
         <h2>Menüü {{ estonian_date }} <a href="{% url 'app_admin:archive' %}">arhiiv</a></h2>
         {% if object_list %}
             {% regroup object_list by menu__category__name as result %}
