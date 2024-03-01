@@ -87,7 +87,7 @@ class MenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/menu_list.html'
     model = Menu
     context_object_name = 'menus'
-    paginate_by = 2
+    paginate_by = 10
 
 
 class MenuUpdateView(ManagerRequiredMixin, UpdateView):
@@ -187,6 +187,7 @@ class SearchResultsPage(ManagerRequiredMixin, ListView):
     model = FoodItem
     template_name = 'app_admin/archive_search.html'
     allow_empty = False
+
 
     def get_queryset(self):
         query = self.request.GET.get('q')  # Info from form

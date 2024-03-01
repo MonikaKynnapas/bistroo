@@ -35,7 +35,7 @@ class MenuCreateForm(forms.ModelForm):
         theme = self.cleaned_data['theme']
         recommends = self.cleaned_data['recommends']
         if(theme is None and recommends is not None) or (theme is not None and recommends is None):
-            self.add_error('theme', ValidationError('Teemapäev ja peakokk peavad mõlemad olema täidetud, mitte üks kahest.'))
+            self.add_error('theme', ValidationError('Teemapäev ja soovitaja peavad mõlemad olema täidetud, mitte üks kahest.'))
 
         return self.cleaned_data
 
