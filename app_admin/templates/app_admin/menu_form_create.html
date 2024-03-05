@@ -2,14 +2,12 @@
 
 {% block main %}
     <h1>Päise pealkirjade sisestamine</h1>
+    <div>Lisa uus päise pealkiri. Vali kuupäev, see rida on kohustuslik. Teema lisades pead lisama ka soovitaja. Soovitaja lisades pead lisama ka teema. Need kaks rida peavad olema kas mõlemad täidetud või mõlemad tühjad. Valmistaja võid lisada või mitte, nii nagu soovid.</div>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Lisa sisestatud pealkirjad" class="btn btn-primary w-100">
-
     </form>
-    <p></p>
-    <p><a href="{% url 'app_admin:menu_list' %}">Pealkirjade nimekiri</a></p>
 
     <script>
         $(function () {

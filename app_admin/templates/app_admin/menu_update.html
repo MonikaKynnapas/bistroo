@@ -4,6 +4,7 @@
         <div class="row">
             <div class='col-12 mx-auto'>
                 <h1>Uuenda pealkirja <span class="fw-bold">{{ name }}</span></h1>
+            <div>Saad pealkirjasid muuta. Kui lisad teema, siis pead lisama ka soovitaja. Kui lisad soovitaja, pead lisama ka teema. Valmistaja lisamine on vabatahtlik, see ei sõltu teistest ridadest.</div>
                 <form method="post" class="form">
                     {% for hidden_field in form.hidden_fields %}
                         <div class="alert alert-danger mt-1">{{ hidden_field.errors }}</div>

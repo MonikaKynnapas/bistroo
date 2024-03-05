@@ -75,13 +75,14 @@ class MenuCreateView(ManagerRequiredMixin, CreateView):
         my_date = my_data['date']
 
         try:
-            new_date =datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
+            new_date = datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
             my_data._mutable = True
             my_data['date'] = new_date
             my_data._mutable = False
         except ValueError:
             return super().post(request, *args, **kwargs)
         return super().post(request, *args, **kwargs)
+
 
 class MenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/menu_list.html'
@@ -96,6 +97,7 @@ class MenuUpdateView(ManagerRequiredMixin, UpdateView):
     # fields = ['date', 'theme', 'recommends', 'prepared']
     success_url = reverse_lazy('app_admin:menu_list')
     form_class = MenuCreateForm
+
     def form_valid(self, form):
         # Additional checks
         return super().form_valid(form)

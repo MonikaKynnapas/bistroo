@@ -33,10 +33,6 @@ class Menu(models.Model):
         ordering = ['-date']
         verbose_name_plural = 'menu'
 
-    def clean(self):
-        if (self.theme is not None and self.recommends is None) or (self.recommends is not None and self.theme is None):
-            raise ValidationError('Teema ja soovitaja peavad olema mõlemad täidetud')
-
 
 class FoodMenu(models.Model):
     date = models.ForeignKey(Menu, on_delete=models.CASCADE)

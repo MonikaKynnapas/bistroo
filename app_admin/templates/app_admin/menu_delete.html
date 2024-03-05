@@ -2,11 +2,12 @@
 {% block main %}
     <p></p>
     <h4>Kustuta pealkiri "{{ menu.theme }}"</h4>
+    <div>Ole kindel, et soovid pealkirja kustutada. </div>
     <p></p>
     <form method="post">
             {% csrf_token %}
             <input type="submit" value="Kustuta" class="btn btn-danger">
     </form>
     <p></p>
-	<p><a href="{% url 'app_admin:menu_list' %}">Pealkirjade nimekirja</a></p>
+	<p><a href="{% url 'app_admin:menu_list' %}">Ei soovi siiski seda pealkirja kustutada</a></p>
 {% endblock %}

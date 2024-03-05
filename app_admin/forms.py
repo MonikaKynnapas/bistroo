@@ -94,7 +94,7 @@ FoodMenuFormset = inlineformset_factory(
     FoodMenu,
     FoodItem,
     form=FoodMenuUpdateForm,
-    extra=5,
+    extra=3,
     fields=('food', 'full_price', 'half_price', 'show_in_menu',))
 
 

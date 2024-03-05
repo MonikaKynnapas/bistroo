@@ -4,6 +4,7 @@
         <div class="row">
             <div class="col-12 mx-auto">
                 <h1>Kategooriate nimekiri</h1>
+            <div> Kategooriad on nummerdatud nii, et kui soovid mõnda kategooriat kahe eelneva vahele lisada, siis pead määrama kategooriale vastava numbri, mis asetuks kahe olemasoleva kategooria vahele.</div>
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="text-center">
@@ -17,7 +18,7 @@
                     {% for category in categories %}
                         <tr>
                             <td>{{ category.number }}</td>
-                            <td class="text-uppercase">{{ category.name }}</td>
+                            <td>{{ category.name }}</td>
                             <td class="text-center">
                                 {# {% if user.is_authenticated %}  #}
                                 <a href="{% url 'app_admin:category_update' pk=category.id %}">Uuenda</a>
