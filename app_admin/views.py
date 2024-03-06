@@ -75,7 +75,7 @@ class MenuCreateView(ManagerRequiredMixin, CreateView):
         my_date = my_data['date']
 
         try:
-            new_date =datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
+            new_date = datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
             my_data._mutable = True
             my_data['date'] = new_date
             my_data._mutable = False
@@ -83,11 +83,12 @@ class MenuCreateView(ManagerRequiredMixin, CreateView):
             return super().post(request, *args, **kwargs)
         return super().post(request, *args, **kwargs)
 
+
 class MenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/menu_list.html'
     model = Menu
     context_object_name = 'menus'
-    paginate_by = 2
+    paginate_by = 10
 
 
 class MenuUpdateView(ManagerRequiredMixin, UpdateView):
@@ -96,6 +97,7 @@ class MenuUpdateView(ManagerRequiredMixin, UpdateView):
     # fields = ['date', 'theme', 'recommends', 'prepared']
     success_url = reverse_lazy('app_admin:menu_list')
     form_class = MenuCreateForm
+
     def form_valid(self, form):
         # Additional checks
         return super().form_valid(form)
@@ -187,6 +189,7 @@ class SearchResultsPage(ManagerRequiredMixin, ListView):
     model = FoodItem
     template_name = 'app_admin/archive_search.html'
     allow_empty = False
+
 
     def get_queryset(self):
         query = self.request.GET.get('q')  # Info from form

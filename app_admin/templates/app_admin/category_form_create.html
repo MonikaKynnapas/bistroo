@@ -6,9 +6,7 @@
     <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Lisa kategooria" class="btn btn-primary">
+            <input type="submit" value="Lisa kategooria" class="btn btn-primary w-100">
     </form>
 
-    <p><a href="{% url 'app_admin:category_list' %}">Kategooriate nimekiri</a></p>
-    <p><a href="{% url 'app_admin:index' %}">Avalehele</a></p>
 {% endblock %}

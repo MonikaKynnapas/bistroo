@@ -791,7 +791,11 @@ function Sizzle( selector, context, results, seed ) {
 						if ( ( elem = context.getElementById( m ) ) ) {
 
 							// Support: IE, Opera, Webkit
+<<<<<<< HEAD
 							// TODO: identify versions
+=======
+
+>>>>>>> origin/master
 							// getElementById can match elements by name instead of ID
 							if ( elem.id === m ) {
 								results.push( elem );
@@ -805,7 +809,11 @@ function Sizzle( selector, context, results, seed ) {
 					} else {
 
 						// Support: IE, Opera, Webkit
+<<<<<<< HEAD
 						// TODO: identify versions
+=======
+
+>>>>>>> origin/master
 						// getElementById can match elements by name instead of ID
 						if ( newContext && ( elem = newContext.getElementById( m ) ) &&
 							contains( context, elem ) &&
@@ -4395,7 +4403,11 @@ var dataUser = new Data();
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
 //	3. Use the same single mechanism to support "private" and "user" data.
+<<<<<<< HEAD
 //	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+=======
+//	4. _Never_ expose "private" data to user code ()
+>>>>>>> origin/master
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
@@ -4463,7 +4475,11 @@ jQuery.extend( {
 		dataUser.remove( elem, name );
 	},
 
+<<<<<<< HEAD
 	// TODO: Now that all calls to _data and _removeData have been replaced
+=======
+
+>>>>>>> origin/master
 	// with direct calls to dataPriv methods, these can be deprecated.
 	_data: function( elem, name, data ) {
 		return dataPriv.access( elem, name, data );

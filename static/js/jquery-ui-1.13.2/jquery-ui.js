@@ -151,7 +151,11 @@ $.widget = function( name, base, prototype ) {
 	} );
 	constructor.prototype = $.widget.extend( basePrototype, {
 
+<<<<<<< HEAD
 		// TODO: remove support for widgetEventPrefix
+=======
+
+>>>>>>> origin/master
 		// always use the name + a colon as the prefix, e.g., draggable:start
 		// don't prefix for widgets that aren't DOM-based
 		widgetEventPrefix: existingConstructor ? ( basePrototype.widgetEventPrefix || name ) : name
@@ -3599,7 +3603,11 @@ var effectsEffectSize = $.effects.define( "size", function( options, done ) {
 		hProps = hProps.concat( [ "marginLeft", "marginRight" ] );
 
 		// Only animate children with width attributes specified
+<<<<<<< HEAD
 		// TODO: is this right? should we include anything with css width specified as well
+=======
+
+>>>>>>> origin/master
 		element.find( "*[width]" ).each( function() {
 			var child = $( this ),
 				childOriginal = $.effects.scaledDimensions( child ),
@@ -5634,7 +5642,11 @@ var widgetsMenu = $.widget( "ui.menu", {
 
 	select: function( event ) {
 
+<<<<<<< HEAD
 		// TODO: It should never be possible to not have an active item at this
+=======
+
+>>>>>>> origin/master
 		// point, but the tests don't trigger mouseenter before click.
 		this.active = this.active || $( event.target ).closest( ".ui-menu-item" );
 		var ui = { item: this.active };
@@ -6432,7 +6444,11 @@ var widgetsControlgroup = $.widget( "ui.controlgroup", {
 					var instanceOptions = $.widget.extend( {}, options );
 
 					// If the button is the child of a spinner ignore it
+<<<<<<< HEAD
 					// TODO: Find a more generic solution
+=======
+
+>>>>>>> origin/master
 					if ( widget === "button" && element.parent( ".ui-spinner" ).length ) {
 						return;
 					}
@@ -7454,7 +7470,11 @@ $.extend( Datepicker.prototype, {
 	//Keep track of the maximum number of rows displayed (see #7043)
 	maxRows: 4,
 
+<<<<<<< HEAD
 	// TODO rename to "widget" when switching to widget factory
+=======
+
+>>>>>>> origin/master
 	_widgetDatepicker: function() {
 		return this.dpDiv;
 	},
@@ -9570,7 +9590,11 @@ var widgetsMouse = $.widget( "ui.mouse", {
 		this.started = false;
 	},
 
+<<<<<<< HEAD
 	// TODO: make sure destroying one instance of mouse doesn't mess with
+=======
+
+>>>>>>> origin/master
 	// other instances of mouse
 	_mouseDestroy: function() {
 		this.element.off( "." + this.widgetName );
@@ -11094,7 +11118,10 @@ $.widget( "ui.resizable", $.ui.mouse, {
 			return true;
 		}
 
+<<<<<<< HEAD
 		// TODO: determine which cases actually cause this to happen
+=======
+>>>>>>> origin/master
 		// if the element doesn't have the scroll set, see if it's possible to
 		// set the scroll
 		try {
@@ -11210,7 +11237,11 @@ $.widget( "ui.resizable", $.ui.mouse, {
 					.off( ".resizable" );
 			};
 
+<<<<<<< HEAD
 		// TODO: Unwrap at same DOM position
+=======
+
+>>>>>>> origin/master
 		if ( this.elementIsWrapper ) {
 			_destroy( this.element );
 			wrapper = this.element;
@@ -11329,7 +11360,11 @@ $.widget( "ui.resizable", $.ui.mouse, {
 			}
 		};
 
+<<<<<<< HEAD
 		// TODO: make renderAxis a prototype function
+=======
+
+>>>>>>> origin/master
 		this._renderAxis( this.element );
 
 		this._handles = this._handles.add( this.element.find( ".ui-resizable-handle" ) );
@@ -11709,7 +11744,11 @@ $.widget( "ui.resizable", $.ui.mouse, {
 
 			prel = this._proportionallyResizeElements[ i ];
 
+<<<<<<< HEAD
 			// TODO: Seems like a bug to cache this.outerDimensions
+=======
+
+>>>>>>> origin/master
 			// considering that we are in a loop.
 			if ( !this.outerDimensions ) {
 				this.outerDimensions = this._getPaddingPlusBorderDimensions( prel );
@@ -11740,7 +11779,11 @@ $.widget( "ui.resizable", $.ui.mouse, {
 				position: "absolute",
 				left: this.elementOffset.left + "px",
 				top: this.elementOffset.top + "px",
+<<<<<<< HEAD
 				zIndex: ++o.zIndex //TODO: Don't modify option
+=======
+				zIndex: ++o.zIndex
+>>>>>>> origin/master
 			} );
 
 			this.helper
@@ -12112,7 +12155,11 @@ $.ui.plugin.add( "resizable", "ghost", {
 		that._addClass( that.ghost, "ui-resizable-ghost" );
 
 		// DEPRECATED
+<<<<<<< HEAD
 		// TODO: remove after 1.12
+=======
+
+>>>>>>> origin/master
 		if ( $.uiBackCompat !== false && typeof that.options.ghost === "string" ) {
 
 			// Ghost option
@@ -13040,7 +13087,11 @@ $.widget( "ui.dialog", {
 			return true;
 		}
 
+<<<<<<< HEAD
 		// TODO: Remove hack when datepicker implements
+=======
+
+>>>>>>> origin/master
 		// the .ui-front logic (#8989)
 		return !!$( event.target ).closest( ".ui-datepicker" ).length;
 	},
@@ -13119,7 +13170,11 @@ $.widget( "ui.dialog", {
 } );
 
 // DEPRECATED
+<<<<<<< HEAD
 // TODO: switch return back to widget declaration at top of file when this is removed
+=======
+
+>>>>>>> origin/master
 if ( $.uiBackCompat !== false ) {
 
 	// Backcompat for dialogClass option
@@ -13368,7 +13423,11 @@ $.widget( "ui.droppable", {
 	},
 
 	// Extension points just to make backcompat sane and avoid duplicating logic
+<<<<<<< HEAD
 	// TODO: Remove in 1.14 along with call to it below
+=======
+
+>>>>>>> origin/master
 	_addHoverClass: function() {
 		this._addClass( "ui-droppable-hover" );
 	},
@@ -13589,7 +13648,11 @@ $.ui.ddmanager = {
 };
 
 // DEPRECATED
+<<<<<<< HEAD
 // TODO: switch return back to widget declaration at top of file when this is removed
+=======
+
+>>>>>>> origin/master
 if ( $.uiBackCompat !== false ) {
 
 	// Backcompat for activeClass and hoverClass options
@@ -15710,7 +15773,11 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		// After we get the helper offset, but before we get the parent offset we can
 		// change the helper's position to absolute
+<<<<<<< HEAD
 		// TODO: Still need to figure out a way to make relative sorting possible
+=======
+
+>>>>>>> origin/master
 		this.helper.css( "position", "absolute" );
 		this.cssPosition = this.helper.css( "position" );
 
@@ -16459,7 +16526,11 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		//Append it after the actual current item
 		that.currentItem.after( that.placeholder );
 
+<<<<<<< HEAD
 		//Update the size of the placeholder (TODO: Logic to fuzzy, see line 316/317)
+=======
+		//Update the size of the placeholder
+>>>>>>> origin/master
 		o.placeholder.update( that, that.placeholder );
 
 	},
@@ -17291,7 +17362,11 @@ $.widget( "ui.spinner", {
 				.hasClass( "ui-spinner-up" ) ? 1 : -1, event );
 		},
 
+<<<<<<< HEAD
 		// TODO: do we really want to consider this a stop?
+=======
+
+>>>>>>> origin/master
 		// shouldn't we just stop the repeater and wait until mouseup before
 		// we trigger the stop event?
 		"mouseleave .ui-spinner-button": "_stop"
@@ -17328,7 +17403,11 @@ $.widget( "ui.spinner", {
 				}
 			} );
 
+<<<<<<< HEAD
 		// TODO: Right now button does not support classes this is already updated in button PR
+=======
+
+>>>>>>> origin/master
 		this._removeClass( this.buttons, "ui-corner-all" );
 
 		this._addClass( this.buttons.first(), "ui-spinner-button ui-spinner-up" );
@@ -17538,7 +17617,11 @@ $.widget( "ui.spinner", {
 			"aria-valuemin": this.options.min,
 			"aria-valuemax": this.options.max,
 
+<<<<<<< HEAD
 			// TODO: what should we do with values that can't be parsed?
+=======
+
+>>>>>>> origin/master
 			"aria-valuenow": this._parse( this.element.val() )
 		} );
 	},
@@ -17620,7 +17703,11 @@ $.widget( "ui.spinner", {
 } );
 
 // DEPRECATED
+<<<<<<< HEAD
 // TODO: switch return back to widget declaration at top of file when this is removed
+=======
+
+>>>>>>> origin/master
 if ( $.uiBackCompat !== false ) {
 
 	// Backcompat for spinner html extension points
@@ -18536,7 +18623,11 @@ $.widget( "ui.tabs", {
 } );
 
 // DEPRECATED
+<<<<<<< HEAD
 // TODO: Switch return back to widget declaration at top of file when this is removed
+=======
+
+>>>>>>> origin/master
 if ( $.uiBackCompat !== false ) {
 
 	// Backcompat for ui-tab class (now ui-tabs-tab)
@@ -19036,7 +19127,11 @@ $.widget( "ui.tooltip", {
 } );
 
 // DEPRECATED
+<<<<<<< HEAD
 // TODO: Switch return back to widget declaration at top of file when this is removed
+=======
+
+>>>>>>> origin/master
 if ( $.uiBackCompat !== false ) {
 
 	// Backcompat for tooltipClass option

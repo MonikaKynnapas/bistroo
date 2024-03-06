@@ -2,6 +2,7 @@
 
 {% block main %}
     <h1 class="h3">Toitude lisamine</h1>
+    <div>Vali kuupäev, mis on lisatud pealkirjade alt ja kategooria, kuhu soovid toitu lisada. Vajutades lisa toit menüüsse, saad lisada korraga kolm toitu valitud kuupäevaks ja valitud kategooriasse.</div>
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">{{ message.message }}</div>
@@ -38,7 +39,7 @@
 
         <p class="pt-2">
             <button type="submit" class="btn btn-primary w-100 mb-2">Lisa toit menüüsse</button>
-            <a href="{% url 'app_admin:index' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
+            <a href="{% url 'app_admin:food_menu_list' %}" role="button" class="btn btn-secondary w-100">Katkesta</a>
         </p>
     </form>
 
