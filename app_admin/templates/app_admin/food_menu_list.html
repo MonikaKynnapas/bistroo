@@ -1,11 +1,14 @@
 {% extends 'base_admin.html' %}
-
+{% load is_menu_old %}
 {% block main %}
     <div class="container">
         <div class="row">
             <div class="col-12 mx-auto">
                 <h1 class="h1">Menüüde nimekiri</h1>
-                <div>Menüüd on järjestatud kuupäevade kaupa ja lisatud kategooriate järjekorras. Samale kuupäevale kahte ühesugust kategooriat lisada ei saa. Saad menüüdes toite muuta, vaadata, kustutada ja lisada.</div>
+                <div>Menüüd on järjestatud kuupäevade kaupa ja lisatud kategooriate järjekorras. Samale kuupäevale kahte
+                    ühesugust kategooriat lisada ei saa. Saad tänastes või tulevastes menüüdes toite muuta, vaadata,
+                    kustutada ja lisada. Vanasid menüüsid saad vaid vaadata, neid muuta ja kustutada ei saa.
+                </div>
                 {% if object_list %}
                     <div class="row">
                         {% include "app_admin/pagination.html" %}
@@ -20,18 +23,20 @@
                         <tbody>
 
                         {% if object_list %}
-
+                            {% now "d.m.Y" as today %}
                             {% for menu in object_list %}
                                 <tr>
                                     <td class="text-reset"
                                         href="{{ menu.get_absolute_url }}">{{ menu.date }} {{ menu.category }} </td>
                                     <td class="text-center">
-                                        {# {% if user.is_authenticated %}  #}
-                                        <a href="{% url 'app_admin:food_menu_update' pk=menu.id %}">Muuda</a>
+                                    {% if not menu.date|striptags|is_menu_old %}
+                                            {# {% if user.is_authenticated %}  #}
+                                            <a href="{% url 'app_admin:food_menu_update' pk=menu.id %}">Muuda</a>
+                                            <a href="{% url 'app_admin:food_menu_delete' pk=menu.id %}"
+                                               class="text-danger">Kustusta</a>
+                                        {% endif %}
                                         <a href="{% url 'app_admin:food_menu_detail' pk=menu.id %}"
                                            class="text-warning">Vaata</a>
-                                        <a href="{% url 'app_admin:food_menu_delete' pk=menu.id %}" class="text-danger">Kustusta</a>
-                                        {# {% endif %} #}
                                     </td>
                                 </tr>
 

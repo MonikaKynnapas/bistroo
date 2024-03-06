@@ -58,7 +58,6 @@ class CategoryUpdateView(ManagerRequiredMixin, UpdateView):
 
 class CategoryDeleteView(ManagerRequiredMixin, DeleteView):
     template_name = 'app_admin/category_delete.html'
-    form_class = CategoryForm
     model = Category
     success_url = reverse_lazy('app_admin:category_list')
 
@@ -114,6 +113,8 @@ class FoodMenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/food_menu_list.html'
     # ordering = ['date']
     paginate_by = 10
+
+
 
 
 class FoodMenuUpdateView(ManagerRequiredMixin, SingleObjectMixin, FormView):
@@ -172,6 +173,11 @@ class FoodMenuCreateView(ManagerRequiredMixin, CreateView):
         )
 
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['test'] = 'Proov'
+        return context
 
 
 class ArchivePage(ManagerRequiredMixin, ListView):

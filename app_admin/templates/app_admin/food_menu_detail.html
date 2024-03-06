@@ -1,5 +1,5 @@
 {% extends 'base_admin.html' %}
-
+{% load is_menu_old %}
 
 {% block main %}
 
@@ -21,9 +21,12 @@
         <div>Näitab menüüs: {{ food.chow_in_menu }}</div>
         <hr>
     {% endfor %}
+
     <p>
+        {% if not foodmenu.date|striptags|is_menu_old %}
         <a href="{% url 'app_admin:food_menu_update' pk=foodmenu.id %}" role="button"
            class="btn btn-primary w-100 mb-2">Toitusid muutma</a>
+        {% endif %}
         <a href="{% url 'app_admin:food_menu_list' %}" role="button" class="btn btn-secondary w-100">Toitude nimekirja</a>
     </p>
 

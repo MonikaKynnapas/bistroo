@@ -21,9 +21,9 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app_admin/', include('app_admin.urls')),
-    path('app_public/', include('app_public.urls')),
+    path('', include('app_public.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', RedirectView.as_view(url='app_public')),
+    # path('', RedirectView.as_view(url='app_public')),
 ]
 
 handler500 = 'app_public.views.custom500'

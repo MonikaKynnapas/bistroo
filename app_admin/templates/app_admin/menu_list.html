@@ -1,10 +1,13 @@
 {% extends 'base_admin.html' %}
+{% load is_menu_old %}
 {% block main %}
     <div class="container">
         <div class="row">
             <div class="col-12 mx-auto">
                 <h1>Pealkirjad päises</h1>
-            <div>Siin on tabel pealkirjadega, mis kuvatakse avaliku vaate päises. Saad siin pealkirjasid muuta, kustutada kui ka lisada.</div>
+                <div>Siin on tabel pealkirjadega, mis kuvatakse avaliku vaate päises. Saad siin pealkirjasid muuta,
+                    kustutada kui ka lisada.
+                </div>
                 {% if object_list %}
                     <div class="row">
                         {% include "app_admin/pagination.html" %}
@@ -29,10 +32,11 @@
                                 <td>{% if menu.prepared %} {{ menu.prepared }} {% endif %}</td>
                                 <td class="text-center">
                                     {# {% if user.is_authenticated %}  #}
-                                    <a href="{% url 'app_admin:menu_update' pk=menu.id %}">Muuda</a>
                                     <a href="{% url 'app_admin:menu_delete' pk=menu.id %}"
                                        class="text-danger">Kustuta</a>
-                                    {# {% endif %} #}
+                                    {% if not menu.date|date:"d.m.Y"|is_menu_old %}
+                                        <a href="{% url 'app_admin:menu_update' pk=menu.id %}">Muuda</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
