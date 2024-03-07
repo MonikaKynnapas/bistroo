@@ -4,7 +4,17 @@
         <div class="row">
             <div class="col-12 mx-auto">
                 <h1>Kategooriate nimekiri</h1>
-            <div> Kategooriad on nummerdatud nii, et kui soovid mõnda kategooriat kahe eelneva vahele lisada, siis pead määrama kategooriale vastava numbri, mis asetuks kahe olemasoleva kategooria vahele.</div>
+
+                <div class=" alert alert-info"> Kategooriad on nummerdatud nii, et kui soovid mõnda kategooriat kahe eelneva vahele lisada, siis
+                    pead määrama kategooriale vastava numbri, mis asetuks kahe olemasoleva kategooria vahele.
+                </div>
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p {% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="text-center">

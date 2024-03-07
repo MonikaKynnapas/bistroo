@@ -4,7 +4,7 @@
         <div class="row">
             <div class='col-12 mx-auto'>
                 <h1>Uuenda pealkirja <span class="fw-bold">{{ name }}</span></h1>
-            <div>Saad pealkirjasid muuta. Kui lisad teema, siis pead lisama ka soovitaja. Kui lisad soovitaja, pead lisama ka teema. Valmistaja lisamine on vabatahtlik, see ei sõltu teistest ridadest.</div>
+            <div class="alert alert-info">Saad pealkirjasid muuta. Kui lisad teema, siis pead lisama ka soovitaja. Kui lisad soovitaja, pead lisama ka teema. Valmistaja lisamine on vabatahtlik, see ei sõltu teistest ridadest.</div>
                 <form method="post" class="form">
                     {% for hidden_field in form.hidden_fields %}
                         <div class="alert alert-danger mt-1">{{ hidden_field.errors }}</div>
@@ -20,6 +20,7 @@
                                 <div class="alert alert-danger mt-1">{{ field.errors|striptags }}</div>
                             {% endif %}
                         </div>
+                        <p></p>
                     {% endfor %}
                     <input type="submit" value="Uuenda" class="btn btn-success w-100">
                     <p class="pt-2">
@@ -31,4 +32,12 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $("#date").datepicker({
+                dateFormat: 'dd.mm.yy'
+                // dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
 {% endblock %}

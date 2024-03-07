@@ -1,8 +1,10 @@
 {% extends 'base_admin.html' %}
 
 {% block main %}
+
     <div class="row col-12 mx-auto mt-2">
         <h2>Arhiiv</h2>
+         <div class="alert alert-info">Arhiivist saad otsida sisestatud menüüdest toite, kas sõna või fraasiga. Lisaks saad otsida kuupäeva järgi menüüsid.</div>
         <div class="col-12 border border-secondary-subtle p-2">
             <h2>Otsing menüü toitudest</h2>
             <form action="{% url 'app_admin:archive-search' %}" class="form" method="get">

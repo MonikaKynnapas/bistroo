@@ -2,7 +2,7 @@
 
 {% block main %}
     <h1>Lisa uus kategooria</h1>
-    <p>Vali number vastavalt sellele kuhu tahad, et uus kategooria asetseks.</p>
+    <div class="alert alert-info">Vali number vastavalt sellele kuhu tahad, et uus kategooria asetseks.</div>
     <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

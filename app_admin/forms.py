@@ -23,10 +23,10 @@ class MenuCreateForm(forms.ModelForm):
 
         widgets = {
             # 'date': django.forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'date': TextInput(attrs={'type': 'text', 'id': 'date', 'class': 'form-control', 'placeholder': 'Vali kuupäev', 'readonly': 'readonly'}),
+            'date': django.forms.DateInput(attrs={'type': 'text', 'id': 'date', 'class': 'form-control', 'placeholder': 'Vali kuupäev', 'readonly': 'readonly'}, format='%d.%m.%Y'),
             'theme': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control', 'placeholder': 'Kui lisad teema, pead lisama ka soovitaja'}),
             'recommends': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control', 'placeholder': 'Kui lisad soovitaja, pead lisama ka teema'}),
-            'prepared': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control'}),
+            'prepared': django.forms.TextInput(attrs={'type': 'text', 'class': 'form-control', 'plaCeholder': 'Valmistaja lisamine on vabatahtlik'}),
         }
 
     def clean(self):
@@ -99,6 +99,10 @@ FoodMenuFormset = inlineformset_factory(
 
 
 class CategoryForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CategoryForm, self).__init__(*args, **kwargs)
+        self.fields['number'].label = 'Number'
+        self.fields['name'].label = 'Nimi'
     class Meta:
         model = Category
         fields = ['number', 'name']

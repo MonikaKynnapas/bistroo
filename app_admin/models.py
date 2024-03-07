@@ -36,7 +36,7 @@ class Menu(models.Model):
 
 class FoodMenu(models.Model):
     date = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ['date', 'category_id']

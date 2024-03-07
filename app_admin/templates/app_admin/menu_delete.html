@@ -2,7 +2,7 @@
 {% block main %}
     <p></p>
     <h4>Kustuta pealkiri "{{ menu.theme }}"</h4>
-    <div>Ole kindel, et soovid pealkirja kustutada. </div>
+    <div class="alert alert-danger">Ole kindel, et soovid pealkirja kustutada. </div>
     <p></p>
     <form method="post">
             {% csrf_token %}

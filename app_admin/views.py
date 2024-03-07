@@ -4,8 +4,8 @@ from urllib.request import urlopen
 import json
 
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.db.models import Count, Q
-from django.shortcuts import redirect
+from django.db.models import Count, Q, ProtectedError
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView, FormView)
 from django.conf import settings
@@ -62,6 +62,17 @@ class CategoryDeleteView(ManagerRequiredMixin, DeleteView):
     success_url = reverse_lazy('app_admin:category_list')
 
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.warning(request, 'Seda kategooriat ei saa kustutada')
+            return render(request, 'app_admin/category_list.html', context={'categories':Category.objects.all(), })
+
+
+# render the template with your message in the context
+# or you can use the messages framework to send the message
+
 class MenuCreateView(ManagerRequiredMixin, CreateView):
     template_name = 'app_admin/menu_form_create.html'
     model = Menu
@@ -101,6 +112,19 @@ class MenuUpdateView(ManagerRequiredMixin, UpdateView):
         # Additional checks
         return super().form_valid(form)
 
+    def post(self, request, *args, **kwargs):
+        my_data = request.POST
+        my_date = my_data['date']
+
+        try:
+            new_date = datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
+            my_data._mutable = True
+            my_data['date'] = new_date
+            my_data._mutable = False
+        except ValueError:
+            return super().post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
+
 
 class MenuDeleteView(ManagerRequiredMixin, DeleteView):
     template_name = 'app_admin/menu_delete.html'
@@ -113,8 +137,6 @@ class FoodMenuListView(ManagerRequiredMixin, ListView):
     template_name = 'app_admin/food_menu_list.html'
     # ordering = ['date']
     paginate_by = 10
-
-
 
 
 class FoodMenuUpdateView(ManagerRequiredMixin, SingleObjectMixin, FormView):
@@ -163,6 +185,7 @@ class FoodMenuCreateView(ManagerRequiredMixin, CreateView):
     model = FoodMenu
     form_class = FoodMenuCreateForm
     template_name = 'app_admin/food_menu_create.html'
+
     # fields = ['date', 'category', ]
 
     def form_valid(self, form):
@@ -174,10 +197,10 @@ class FoodMenuCreateView(ManagerRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['test'] = 'Proov'
-        return context
+    def get_form(self, *args, **kwargs):
+        form = super(FoodMenuCreateView, self).get_form(*args, **kwargs)
+        form.fields['date'].queryset = Menu.objects.all().filter(date__gte=datetime.now())
+        return form
 
 
 class ArchivePage(ManagerRequiredMixin, ListView):
@@ -195,7 +218,6 @@ class SearchResultsPage(ManagerRequiredMixin, ListView):
     model = FoodItem
     template_name = 'app_admin/archive_search.html'
     allow_empty = False
-
 
     def get_queryset(self):
         query = self.request.GET.get('q')  # Info from form
