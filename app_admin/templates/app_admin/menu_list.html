@@ -5,9 +5,17 @@
         <div class="row">
             <div class="col-12 mx-auto">
                 <h1>Pealkirjad päises</h1>
-                <div class="alert alert-info">Siin on tabel pealkirjadega, mis kuvatakse avaliku vaate päises. Saad siin pealkirjasid muuta,
+                <div class="alert alert-info">Siin on tabel pealkirjadega, mis kuvatakse avaliku vaate päises. Saad siin
+                    pealkirjasid muuta,
                     kustutada kui ka lisada.
                 </div>
+                {% if messages %}
+                    <div class="messages" id="messages">
+                        {% for message in messages %}
+                            <p {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 {% if object_list %}
                     <div class="row">
                         {% include "app_admin/pagination.html" %}
@@ -51,5 +59,17 @@
                 {% endif %}
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Kontrollib, kas teavitusi sisaldav element on olemas
+            let messages = document.getElementById('messages');
+            if (messages) {
+                // Ootab 5 sekundit ja seejärel peidab teavitused
+                setTimeout(function () {
+                    messages.style.display = 'none';
+                }, 5000); // 5000 millisekundit = 5 sekundit
+            }
+        });
+    </script>
 {% endblock %}
 

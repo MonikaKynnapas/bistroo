@@ -36,6 +36,14 @@ class CategoryCreateView(ManagerRequiredMixin, CreateView):
     #  fields = '__all__'
     success_url = reverse_lazy('app_admin:category_list')
 
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Kategooria on lisatud'
+        )
+
+        return super().form_valid(form)
 
 class CategoryListView(ManagerRequiredMixin, ListView):
     model = Category
@@ -79,7 +87,14 @@ class MenuCreateView(ManagerRequiredMixin, CreateView):
     # fields = '__all__'
     form_class = MenuCreateForm
     success_url = reverse_lazy('app_admin:menu_list')
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Pealkiri on lisatud'
+        )
 
+        return super().form_valid(form)
     def post(self, request, *args, **kwargs):
         my_data = request.POST
         my_date = my_data['date']
@@ -161,7 +176,7 @@ class FoodMenuUpdateView(ManagerRequiredMixin, SingleObjectMixin, FormView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            'Changes were saved.'
+            'Muudatused on salvestatud.'
         )
 
         return HttpResponseRedirect(self.get_success_url())
@@ -192,7 +207,7 @@ class FoodMenuCreateView(ManagerRequiredMixin, CreateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            'The author has been added'
+            'Toit on lisatud'
         )
 
         return super().form_valid(form)

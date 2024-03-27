@@ -50,7 +50,7 @@ class FoodMenu(models.Model):
 
 class FoodItem(models.Model):
     menu = models.ForeignKey(FoodMenu, on_delete=models.CASCADE, related_name='food_fooditem')
-    food = models.CharField(max_length=50)
+    food = models.CharField(max_length=250)
     full_price = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False)
     half_price = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     show_in_menu = models.BooleanField(default=True)
